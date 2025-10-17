@@ -11,19 +11,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout your code
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: List files
-        run: ls -R
+      # Step 2: Debug - list files to confirm structure
+      - name: Debug — list all files
+        run: |
+          echo "Current directory: $(pwd)"
+          ls -R
 
+      # Step 3: Set up Docker Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      # Step 4: Build your Docker image
       - name: Build Docker image
         run: |
-          docker build -t myapp:latest -f ./Dockerfile .
+          docker build -t myapp:latest -f ./Day3Workshop/Day3_Workshop/dockerfile ./Day3Workshop/Day3_Workshop
 
+      # Step 5: Run Trivy image scan
       - name: Run Trivy image scan
         uses: aquasecurity/trivy-action@master
         with:
@@ -35,6 +42,7 @@ jobs:
           vuln-type: 'os,library'
           output: 'trivy-report.txt'
 
+      # Step 6: Upload Trivy scan results
       - name: Upload Trivy scan results
         uses: actions/upload-artifact@v4
         with:
