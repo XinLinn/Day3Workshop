@@ -33,8 +33,8 @@ jobs:
       # Step 4: Build your Docker image
       - name: Build Docker image
         run: |
-          docker build -t fastapi-app:latest -f ./Day3Workshop/Day3_Workshop/Dockerfile ./Day3Workshop/Day3_Workshop
-
+          docker build -t fastapi-app:latest -f Day3_Workshop/Dockerfile Day3_Workshop
+          
       # Step 5: Run Trivy image scan
       - name: Run Trivy image scan
         uses: aquasecurity/trivy-action@master
