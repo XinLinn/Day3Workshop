@@ -24,6 +24,11 @@ jobs:
       # Step 3: Set up Docker Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+      # Debug
+      - name: Debug — list repo contents
+        run: |
+          echo "Current working directory: $(pwd)"
+          ls -R
 
       # Step 4: Build your Docker image
       - name: Build Docker image
