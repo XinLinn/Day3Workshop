@@ -66,30 +66,4 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/fastapi-app:latest
 
-     # 9️⃣ Set up kubectl
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v4
-        with:
-          version: 'latest'
-
-      # 🔟 Configure kubeconfig
-      - name: Configure kubeconfig
-        run: |
-          mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 --decode > $HOME/.kube/config
-          kubectl cluster-info
-
-      # 1️⃣1️⃣ Deploy or update Kubernetes deployment
-      - name: Deploy or update Kubernetes
-        run: |
-          # Check if deployment exists
-          if kubectl get deployment fastapi-app; then
-            echo "Deployment exists. Updating image..."
-            kubectl set image deployment/fastapi-app fastapi-app=${{ secrets.DOCKER_USERNAME }}/fastapi-app:${{ env.IMAGE_TAG }}
-            kubectl rollout status deployment/fastapi-app
-          else
-            echo "Deployment does not exist. Creating deployment and service..."
-            kubectl apply -f ./Day3_Workshop/deployment.yaml
-            kubectl apply -f ./Day3_Workshop/service.yaml
-            kubectl rollout status deployment/fastapi-app
-          fi
+    
