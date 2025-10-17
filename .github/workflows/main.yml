@@ -44,6 +44,8 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: '${{ secrets.DOCKER_USERNAME }}/fastapi-app:latest'
+          scan-type: 'fs'
+          scan-ref: './Day3_Workshop'
           format: 'table'
           severity: 'HIGH,CRITICAL'
           ignore-unfixed: true
@@ -51,6 +53,7 @@ jobs:
           vuln-type: 'os,library'
           output: 'trivy-report.txt'
           exit-code: 0  # Do not fail the workflow even if vulnerabilities exist
+          
 
       # Upload Trivy report as an artifact
       - name: Upload Trivy report
