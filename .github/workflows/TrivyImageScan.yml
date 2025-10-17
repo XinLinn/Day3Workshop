@@ -14,17 +14,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: List files
+        run: ls -R
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
       - name: Build Docker image
         run: |
-          docker build -t myapp:latest .
+          docker build -t myapp:latest -f ./Dockerfile .
 
       - name: Run Trivy image scan
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'myapp:latest'
+          image-ref: 'fastapi-app:latest'
           format: 'table'
           severity: 'HIGH,CRITICAL'
           ignore-unfixed: true
